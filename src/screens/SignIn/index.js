@@ -27,7 +27,7 @@ export default ({ navigation }) => {
         secureTextEntry={true}
       />
       <FormButton buttonTitle="Login" onPress={() => alert('login button')} />
-      <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Signup')}>
+      <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('SignUp')}>
         <Text style={styles.navButtonText}>New user? Click here</Text>
       </TouchableOpacity>
     </View>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 
-import FormButton from '../../components/FormInput';
+import FormButton from '../../components/FormButton';
 import FormInput from '../../components/FormInput';
 
 import styles from './styles';
