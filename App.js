@@ -1,13 +1,16 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React from 'react';
 
-import { Platform, StatusBar } from 'react-native';
+import { StatusBar, SafeAreaView } from 'react-native';
+import NavigationContainer from './src/navigation/index';
 
-const App = () => {};
+const App = () => {
+  return (
+    <>
+      <SafeAreaView forceInset={{ top: 'always' }} />
+      <StatusBar hidden={false} barStyle="dark-content" />
+      <NavigationContainer />
+    </>
+  );
+};
 
 export default App;
