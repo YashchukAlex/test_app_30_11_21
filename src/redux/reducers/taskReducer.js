@@ -5,7 +5,7 @@ const defaultState = {
   listTasks: null,
 };
 
-const app = (state = defaultState, action) => {
+const task = (state = defaultState, action) => {
   switch (action.type) {
     case ADD_TASK:
       return { ...state };
@@ -23,4 +23,4 @@ const app = (state = defaultState, action) => {
       return state;
   }
 };
-export default app;
+export default task;

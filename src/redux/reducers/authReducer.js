@@ -4,7 +4,7 @@ const defaultState = {
   loader: false,
 };
 
-const app = (state = defaultState, action) => {
+const auth = (state = defaultState, action) => {
   switch (action.type) {
     case HANDLE_LOADER:
       return { ...state, loader: !state.loader };
@@ -18,4 +18,4 @@ const app = (state = defaultState, action) => {
       return state;
   }
 };
-export default app;
+export default auth;
