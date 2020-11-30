@@ -2,6 +2,7 @@ import { HANDLE_LOADER, SIGN_IN, SIGN_UP } from '../actionTypes';
 
 const defaultState = {
   loader: false,
+  token: '',
 };
 
 const auth = (state = defaultState, action) => {
@@ -9,11 +10,9 @@ const auth = (state = defaultState, action) => {
     case HANDLE_LOADER:
       return { ...state, loader: !state.loader };
     case SIGN_IN:
-      return {
-        ...state,
-      };
+      return { ...state, token: action.payload };
     case SIGN_UP:
-      return { ...state };
+      return { ...state, token: action.payload };
     default:
       return state;
   }

@@ -1,10 +1,10 @@
 import React, { useEffect, useCallback } from 'react';
 import { getToken } from '../../services/storage';
 import jwt_decode from 'jwt-decode';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import connector from './connector';
 
-const Preload = ({ navigation, handleLoader }) => {
+const Preload = ({ navigation, handleLoader, signIn }) => {
   const handler = useCallback(() => {
     handleLoader();
     let token = '';
@@ -14,7 +14,7 @@ const Preload = ({ navigation, handleLoader }) => {
         const now = Math.round(+new Date() / 1000);
         const decoded = jwt_decode(token);
         if (decoded.exp > now) {
-          navigation.navigate('Tasks');
+          signIn(token);
         } else {
           navigation.navigate('SignIn');
         }

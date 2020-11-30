@@ -12,7 +12,7 @@ export default () => {
   return (
     <Stack.Navigator initialRouteName="Preload">
       <Stack.Screen name="Preload" component={Preload} />
-      <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="SignIn" component={SignIn} options={{ headerLeft: () => null }} />
       <Stack.Screen name="SignUp" component={SignUp} />
     </Stack.Navigator>
   );

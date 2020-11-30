@@ -6,9 +6,14 @@ import FormInput from '../../components/FormInput';
 
 import styles from './styles';
 
-export default () => {
+import { signUpApi } from '../../api/authApi';
+
+export default ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const handleRequest = () => {
+    signUpApi({ email, password });
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Create an account</Text>
@@ -26,7 +31,7 @@ export default () => {
         onChangeText={(userPassword) => setPassword(userPassword)}
         secureTextEntry={true}
       />
-      <FormButton buttonTitle="Signup" onPress={() => alert('sign button')} />
+      <FormButton buttonTitle="Sign Up" onPress={() => handleRequest()} />
     </View>
   );
 };

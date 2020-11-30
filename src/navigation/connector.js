@@ -1,14 +1,13 @@
 import { connect } from 'react-redux';
-import { handleLoader, signIn } from '../../redux/actions/authActions';
+import { logout } from '../redux/actions/authActions';
 
 const mapStateToProps = (state) => ({
-  loader: state.authReducer.loader,
+  token: state.authReducer.token,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleLoader: () => dispatch(handleLoader()),
-    signIn: (data) => dispatch(signIn(data)),
+    logout: () => dispatch(logout()),
   };
 };
 

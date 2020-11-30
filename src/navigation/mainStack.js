@@ -1,19 +1,32 @@
 import React from 'react';
+import { Button } from 'react-native';
+import { clearAll } from '../services/storage';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import SignIn from '../screens/SignIn';
-import SignUp from '../screens/SignUp';
-import Preload from '../screens/Preload';
+import Tasks from '../screens/Tasks';
 
 const Stack = createStackNavigator();
 
-export default () => {
+export default ({ logout }) => {
   return (
-    <Stack.Navigator initialRouteName="Preload">
-      <Stack.Screen name="Preload" component={Preload} />
-      <Stack.Screen name="SignIn" component={SignIn} />
-      <Stack.Screen name="SignUp" component={SignUp} />
-    </Stack.Navigator>
+    <>
+      <Stack.Navigator
+        initialRouteName="Tasks"
+        screenOptions={{
+          headerRight: () => (
+            <Button
+              title="logout"
+              onPress={() => {
+                clearAll();
+                logout();
+              }}
+            />
+          ),
+        }}
+      >
+        <Stack.Screen name="Tasks" component={Tasks} options={{ headerLeft: () => null }} />
+      </Stack.Navigator>
+    </>
   );
 };

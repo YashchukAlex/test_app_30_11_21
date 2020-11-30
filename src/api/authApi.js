@@ -1,11 +1,11 @@
 import { Alert } from 'react-native';
 
 import store from '../redux/index';
-import {} from '../redux/actions';
-import {} from '../redux/actionTypes';
+import { handleLoader, signIn, signUp } from '../redux/actions/authActions';
+import { setToken } from '../services/storage';
 import { baseUrl } from '../constants';
 
-export const signIn = (data) => {
+export const signInApi = (data) => {
   const request = {
     method: 'POST',
     headers: {
@@ -13,12 +13,16 @@ export const signIn = (data) => {
     },
     body: JSON.stringify(data),
   };
+  store.dispatch(handleLoader());
   return fetch(`${baseUrl}/auth`, request)
     .then(async (response) => {
       if (!response.ok) {
         throw response;
       }
       let res = await response.json();
+      const { token } = res;
+      await setToken(token);
+      store.dispatch(signIn(token));
     })
     .catch((err) => {
       err.text().then((errorMessage) => {
@@ -26,10 +30,12 @@ export const signIn = (data) => {
         console.log(errorMessage, err.status);
       });
     })
-    .finally(() => {});
+    .finally(() => {
+      store.dispatch(handleLoader());
+    });
 };
 
-export const signUp = (data) => {
+export const signUpApi = (data) => {
   const request = {
     method: 'POST',
     headers: {
@@ -37,12 +43,16 @@ export const signUp = (data) => {
     },
     body: JSON.stringify(data),
   };
+  store.dispatch(handleLoader());
   return fetch(`${baseUrl}/users`, request)
     .then(async (response) => {
       if (!response.ok) {
         throw response;
       }
       let res = await response.json();
+      const { token } = res;
+      await setToken(token);
+      store.dispatch(signUp(token));
     })
     .catch((err) => {
       err.text().then((errorMessage) => {
@@ -50,5 +60,7 @@ export const signUp = (data) => {
         console.log(errorMessage, err.status);
       });
     })
-    .finally(() => {});
+    .finally(() => {
+      store.dispatch(handleLoader());
+    });
 };

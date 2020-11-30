@@ -1,21 +1,13 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
-import auth from './authStack';
-import main from './mainStack';
+import AuthStack from './authStack';
+import MainStack from './mainStack';
 
-const Stack = createStackNavigator();
+import connector from './connector';
 
-export default () => {
-  return (
-    <>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name={'authStack'} component={auth} options={{ header: () => null }} />
-          <Stack.Screen name={'mainStack'} component={main} options={{ header: () => null }} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </>
-  );
+const Navigation = ({ token, logout }) => {
+  return <NavigationContainer>{!token ? <AuthStack /> : <MainStack logout={logout} />}</NavigationContainer>;
 };
+
+export default connector(Navigation);
