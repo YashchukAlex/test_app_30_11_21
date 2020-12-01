@@ -1,24 +1,27 @@
 import { Alert } from 'react-native';
 
 import store from '../redux/index';
-import {} from '../redux/actions';
-import {} from '../redux/actionTypes';
+import { getAllTasks, getTask } from '../redux/actions/taskActions';
+import { handleLoader } from '../redux/actions/authActions';
 import { baseUrl } from '../constants';
 
-export const getTasks = (params) => {
+export const getTasks = (params, token) => {
   const { page, sort } = params;
   const request = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
   };
+  store.dispatch(handleLoader());
   return fetch(`${baseUrl}/tasks?page=${page}&sort=${sort}`, request)
     .then(async (response) => {
       if (!response.ok) {
         throw response;
       }
       let res = await response.json();
+      store.dispatch(getAllTasks(res));
     })
     .catch((err) => {
       err.text().then((errorMessage) => {
@@ -26,22 +29,28 @@ export const getTasks = (params) => {
         console.log(errorMessage, err.status);
       });
     })
-    .finally(() => {});
+    .finally(() => {
+      store.dispatch(handleLoader());
+    });
 };
 
-export const getTaskById = (id) => {
+export const getTaskById = (id, token, callback) => {
   const request = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
   };
+  store.dispatch(handleLoader());
   return fetch(`${baseUrl}/tasks/${id}`, request)
     .then(async (response) => {
       if (!response.ok) {
         throw response;
       }
       let res = await response.json();
+      callback();
+      store.dispatch(getTask(res.task));
     })
     .catch((err) => {
       err.text().then((errorMessage) => {
@@ -49,69 +58,83 @@ export const getTaskById = (id) => {
         console.log(errorMessage, err.status);
       });
     })
-    .finally(() => {});
+    .finally(() => {
+      store.dispatch(handleLoader());
+    });
 };
 
-export const addTask = (data) => {
+export const addTask = (data, token, navigation) => {
   const request = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   };
+  store.dispatch(handleLoader());
   return fetch(`${baseUrl}/tasks`, request)
     .then((response) => {
       if (!response.ok) {
         throw response;
       }
+      navigation.goBack();
     })
     .catch((err) => {
       err.text().then((errorMessage) => {
         Alert.alert(errorMessage);
         console.log(errorMessage, err.status);
       });
-    });
+    })
+    .finally(() => store.dispatch(handleLoader()));
 };
 
-export const updateTask = (data) => {
+export const updateTask = (data, id, token, navigation) => {
   const request = {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   };
-  return fetch(`${baseUrl}/tasks/${data.id}`, request)
+  store.dispatch(handleLoader());
+  return fetch(`${baseUrl}/tasks/${id}`, request)
     .then((response) => {
       if (!response.ok) {
         throw response;
       }
+      navigation.goBack();
     })
     .catch((err) => {
       err.text().then((errorMessage) => {
         Alert.alert(errorMessage);
         console.log(errorMessage, err.status);
       });
-    });
+    })
+    .finally(() => store.dispatch(handleLoader()));
 };
 
-export const removeTask = (data) => {
+export const removeTask = (data, id, token, navigation) => {
   const request = {
-    method: 'POST',
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
   };
-  return fetch(`${baseUrl}/tasks/${data.id}`, request)
+  store.dispatch(handleLoader());
+  return fetch(`${baseUrl}/tasks/${id}`, request)
     .then((response) => {
       if (!response.ok) {
         throw response;
       }
+      navigation.goBack();
     })
     .catch((err) => {
       err.text().then((errorMessage) => {
         console.log(errorMessage, err.status);
       });
-    });
+    })
+    .finally(() => store.dispatch(handleLoader()));
 };

@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 import { windowHeight, windowWidth } from '../../constants/index';
-export default function FormInput({ labelValue, placeholderText, ...rest }) {
+export default function FormInput({ labelValue, placeholderText, height, ...rest }) {
   return (
     <TextInput
       value={labelValue}
-      style={styles.input}
+      style={[styles.input, { height: height && height }]}
       numberOfLines={1}
       placeholder={placeholderText}
       placeholderTextColor="#666"
